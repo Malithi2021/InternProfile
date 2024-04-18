@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+option csharp_namespace = "InternProfile";
+
+package intern;
+
+
+service InternProfile {
+  rpc CreateInternProfile(CreateInternProfileRequest) returns (InternProfileResponse);
+  rpc GetInternProfile(GetProfileRequest) returns (GetInternProfileResponse);
+  rpc GetInternProfilesList(GetAllProfilesRequest) returns (GetAllProfilesResponse);
+  rpc UpdateInternProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+  rpc DeleteInternProfile(DeleteProfileRequest) returns (DeleteProfileResponse);
+}
+
+
+message Profile {
+  string id = 1;
+  string name = 2;
+  string university = 3;
+  float interview_score = 4;
+  string interview_feedback = 5;
+  float evalution1_score = 6;
+  string evalution1_feedback = 7;
+  float evalution2_score = 8;
+  string evalution2_feedback = 9;
+  string accomplishments = 10;
+  float gpa = 11;
+  string project_details = 12;
+  string assigned_team = 13;
+  string mentor_id = 14;
+  string cv_url = 15;
+  ProfileStatus pofileStatus = 16;
+  
+}
+
+message CreateInternProfileRequest {
+  string name = 1;
+  string university = 2;
+  float interview_score = 3;
+  string interview_feedback = 4;
+  float evalution1_score = 5;
+  string evalution1_feedback = 6;
+  float evalution2_score = 7;
+  string evalution2_feedback = 8;
+  string accomplishments = 9;
+  float gpa = 10;
+  string project_details = 11;
+  string assigned_team = 12;
+  string mentor_id = 13;
+  string cv_url = 14;
+  ProfileStatus profileStatus = 15;
+}
+
+
+message InternProfileResponse {
+  Profile profile = 1;
+}
+
+message GetProfileRequest {
+  string intern_id = 1;
+
+}
+
+message GetInternProfileResponse {
+  Profile profile = 1;
+}
+
+
+message GetAllProfilesRequest{
+
+}
+
+message GetAllProfilesResponse {
+	repeated InternProfileResponse profile = 1;
+
+}
+
+message UpdateProfileRequest{
+  string id = 1;
+  string name = 2;
+  string university = 3;
+  string assigned_team = 13;
+  string mentor_id = 14;
+  ProfileStatus profileStatus = 16;
+
+}
+
+message UpdateProfileResponse{
+  string id = 1;
+}
+
+message DeleteProfileRequest{
+	string id = 1;
+}
+
+message DeleteProfileResponse{
+	string id = 1;
+}
+
+enum ProfileStatus {
+  PENDING = 0;
+  INTERVIEW_SCHEDULED = 1;
+  INTERVIEW_COMPLETE = 2;
+  HIRED = 3;
+  REJECTED = 4;
+  INTERNSHIP_STARTED = 5;
+  INTERNSHIP_ENDED = 6;
+}
+
+
+
+
