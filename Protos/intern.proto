@@ -2,15 +2,42 @@ syntax = "proto3";
 
 option csharp_namespace = "InternProfile";
 
+import "Google/api/annotations.proto";
+
 package intern;
 
 
 service InternProfile {
-  rpc CreateInternProfile(CreateInternProfileRequest) returns (InternProfileResponse);
-  rpc GetInternProfile(GetProfileRequest) returns (GetInternProfileResponse);
-  rpc GetInternProfilesList(GetAllProfilesRequest) returns (GetAllProfilesResponse);
-  rpc UpdateInternProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
-  rpc DeleteInternProfile(DeleteProfileRequest) returns (DeleteProfileResponse);
+  rpc CreateInternProfile(CreateInternProfileRequest) returns (InternProfileResponse) {
+      option (google.api.http) = {
+		  post:"/v1/InternProfile",
+		  body: "*"
+	  };
+  }
+
+  rpc GetInternProfile(GetProfileRequest) returns (GetInternProfileResponse){
+      option (google.api.http) = {
+		  get:"/v1/InternProfile/{id}"
+	  };
+  }
+
+  rpc GetInternProfilesList(GetAllProfilesRequest) returns (GetAllProfilesResponse) {
+      option (google.api.http) = {
+		  get:"/v1/InternProfile"
+	  };
+  }
+  rpc UpdateInternProfile(UpdateProfileRequest) returns (UpdateProfileResponse){
+      option (google.api.http) = {
+		  put:"/v1/InternProfile",
+		  body: "*"
+	  };
+  }
+
+  rpc DeleteInternProfile(DeleteProfileRequest) returns (DeleteProfileResponse){
+      option (google.api.http) = {
+		  delete:"/v1/InternProfile/{id}"
+	  };
+  }
 }
 
 
@@ -58,7 +85,7 @@ message InternProfileResponse {
 }
 
 message GetProfileRequest {
-  string intern_id = 1;
+  string id = 1;
 
 }
 

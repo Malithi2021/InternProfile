@@ -53,7 +53,7 @@ namespace InternProfile.Services
 
         public override async Task<GetInternProfileResponse> GetInternProfile(GetProfileRequest request, ServerCallContext context)
         {
-            var profile = await _dbContext.Profiles.FindAsync(request.InternId);
+            var profile = await _dbContext.Profiles.FindAsync(request.Id);
 
             if (profile == null)
             {
