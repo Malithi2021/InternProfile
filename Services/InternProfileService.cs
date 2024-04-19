@@ -1,6 +1,6 @@
 using Grpc.Core;
 using InternProfile.Data;
-using InternProfile.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternProfile.Services
 {
@@ -51,8 +51,72 @@ namespace InternProfile.Services
            
         }
 
+        public override async Task<GetInternProfileResponse> GetInternProfile(GetProfileRequest request, ServerCallContext context)
+        {
+            var profile = await _dbContext.Profiles.FindAsync(request.InternId);
 
-       
+            if (profile == null)
+            {
+                throw new RpcException(new Status(StatusCode.NotFound, "Profile not found"));
+            }
 
+            return new GetInternProfileResponse
+            {
+                Profile = profile
+            };
+
+            throw new RpcException(new Status(StatusCode.NotFound, $"No Task with id (request.Id)"));
+        }
+
+        public override async Task<GetAllProfilesResponse> GetInternProfilesList(GetAllProfilesRequest request, ServerCallContext context)
+        {
+            var profiles = await _dbContext.Profiles.ToListAsync();
+
+            var response = new GetAllProfilesResponse();
+            response.Profile.AddRange(profiles.Select(profile => new InternProfileResponse { Profile = profile }));
+
+            return response;
+        }
+
+        public override async Task<UpdateProfileResponse> UpdateInternProfile(UpdateProfileRequest request, ServerCallContext context)
+        {
+            var profile = await _dbContext.Profiles.FindAsync(request.Id);
+
+            if (profile == null)
+            {
+                throw new RpcException(new Status(StatusCode.NotFound, "Profile not found"));
+            }
+
+            profile.Name = request.Name;
+            profile.University = request.University;
+            profile.AssignedTeam = request.AssignedTeam;
+            profile.MentorId = request.MentorId;
+            profile.PofileStatus = request.ProfileStatus;
+
+            await _dbContext.SaveChangesAsync();
+
+            return new UpdateProfileResponse
+            {
+                Id = profile.Id
+            };
+        }
+
+        public override async Task<DeleteProfileResponse> DeleteInternProfile(DeleteProfileRequest request, ServerCallContext context)
+        {
+            var profile = await _dbContext.Profiles.FindAsync(request.Id);
+
+            if (profile == null)
+            {
+                throw new RpcException(new Status(StatusCode.NotFound, "Profile not found"));
+            }
+
+            _dbContext.Profiles.Remove(profile);
+            await _dbContext.SaveChangesAsync();
+
+            return new DeleteProfileResponse
+            {
+                Id = request.Id
+            };
+        }
     }
 }
