@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=Xternship.db"));
+string connectionString = "Data Source=Xternship.db";
 
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(connectionString));
 
 builder.Services.AddGrpc().AddJsonTranscoding();
 

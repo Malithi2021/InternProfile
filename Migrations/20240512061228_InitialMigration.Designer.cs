@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternProfile.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240404042637_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240512061228_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,7 +71,7 @@ namespace InternProfile.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,10 @@
 ﻿
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace InternProfile.Models
 {
+    [Table("Profiles")]
     public class Profile
     {
         public int Id { get; set; }
@@ -20,6 +23,8 @@ namespace InternProfile.Models
         public string? MentorId { get; set; }
         public string? CVUrl { get; set; }
         public ProfileStatus ProfileStatus { get; set; }
+
+        public Profile() { }
     }
     public enum ProfileStatus
     {
